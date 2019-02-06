@@ -3,8 +3,14 @@ import os
 
 
 class Enimy(pygame.sprite.Sprite):
-    def __init__(self, sheet, columns, rows, x, y, ):
+    def __init__(self, sheet, type):
+        self.spd_mod = 1
+        self.hm_mod = 1
+        self.
+        columns, rows, x, y = 8, 2, 0, 0
         super().__init__(all_sprites)
+        self.speed = type[0] * self.spd_mod
+        self.healt_hmax = type[1] * self.hm_mod
         self.frames = []
         self.cut_sheet(sheet, columns, rows)
         self.cur_frame = 0

@@ -47,7 +47,7 @@ while running:
             running = False
     dragon.update()
     all_sprites.draw(screen)
-    clock.tick(10)
+    clock.tick(1)
 
     pygame.display.flip()
 pygame.quit()
