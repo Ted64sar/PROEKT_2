@@ -50,10 +50,11 @@ class Plant(pygame.sprite.Sprite):
         self.attack = type[0]
         self.reload = type[1]
         self.at_c = type[2]
-        self.pic_change = type[]
-        self.damage = type[2]
-        self.health_max = type[3]
-        self.price = type[4]
+        self.pic_change = type[3]
+        self.damage = type[4]
+        self.health_max = type[5]
+        self.price = type[6]
+        self.attacking = False
 
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
@@ -64,6 +65,13 @@ class Plant(pygame.sprite.Sprite):
             for i in range(columns):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
+
+    def check_attack(self):
+        if self.attack == 0:
+            if Board[self.line].zombiez != []:
+                self.attacking = True
+            else:
+                self.attacking = False
 
 
     def update(self):
