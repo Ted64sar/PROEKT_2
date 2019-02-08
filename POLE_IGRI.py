@@ -42,5 +42,7 @@ class Board:
 class Garden:
     def __init__(self, zombiez, plants):
         self.width = 12
-        self.height = 6
+        self.rows = 6
+
+
 
