@@ -36,7 +36,7 @@ def load_image(name):
 screen = pygame.display.set_mode((80, 80))
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
-dragon = AnimatedSprite(load_image("XOLST.png"), 8, 2, 0, 0)
+dragon = AnimatedSprite(load_image("CRAZY_CUCUMBER.png"), 8, 2, 0, 0)
 
 running = True
 while running:
@@ -47,7 +47,7 @@ while running:
             running = False
     dragon.update()
     all_sprites.draw(screen)
-    clock.tick(1)
+    clock.tick(10)
 
     pygame.display.flip()
 pygame.quit()

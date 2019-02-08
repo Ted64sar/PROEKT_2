@@ -27,8 +27,10 @@ class Board:
             return 0, 0
 
     def render(self):
+        '''
         for i in range(self.height):
             for j in range(self.width):
+        '''
 
     def on_click(self, cell_coords):
         z = self.board[cell_coords[0]][cell_coords[1]]

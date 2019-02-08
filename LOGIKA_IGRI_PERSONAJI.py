@@ -45,6 +45,16 @@ class Plant(pygame.sprite.Sprite):
         self.frames = []
         self.cut_sheet(sheet, columns, rows)
         self.cur_frame = 0
+        self.line = pos[0]
+        self.number = pos[1]
+        self.attack = type[0]
+        self.reload = type[1]
+        self.at_c = type[2]
+        self.pic_change = type[]
+        self.damage = type[2]
+        self.health_max = type[3]
+        self.price = type[4]
+
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
 
@@ -55,9 +65,13 @@ class Plant(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
+
     def update(self):
-        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
-        self.image = self.frames[self.cur_frame]
+        if not(self.attacking):
+            self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+            self.image = self.frames[self.cur_frame]
+        else:
+
 
 
 
