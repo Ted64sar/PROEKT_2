@@ -31,6 +31,8 @@ class Zomb(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
 
 
+class Explosion(pygame.sprite.Sprite):
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, image, vel, damage, x, y)
