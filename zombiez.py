@@ -116,4 +116,5 @@ while pygame.event.wait().type != pygame.QUIT:
             z6.rect.x -= 2
         pygame.time.delay(10)
         clock +=1
+
 pygame.quit()

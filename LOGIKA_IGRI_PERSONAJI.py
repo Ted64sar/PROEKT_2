@@ -2,40 +2,39 @@ import pygame
 import os
 
 
-class Enimy(pygame.sprite.Sprite):
-    def __init__(self, sheet, type, line):
-        self.spd_mod = 1
-        self.is_attaked = False
-        self.attekers = []
-        self.line = line
-        columns, rows, x, y = 8, 2, 0, 0
-        super().__init__(all_sprites)
-        self.speed = type[0] * self.spd_mod
-        self.healt_max = type[1]
-        self.hp = self.healt_max
-        self.frames = []
-        self.cut_sheet(sheet, columns, rows)
-        self.cur_frame = 0
-        self.image = self.frames[self.cur_frame]
-        self.rect = self.rect.move(x, y)
-        self.dead = False
+pygame.init()
+size = width, height = 1000, 580
+screen = pygame.display.set_mode(size)
 
-    def cut_sheet(self, sheet, columns, rows):
-        self.rect = pygame.Rect(0, 0, 80, 80)
-        for j in range(rows):
-            for i in range(columns):
-                frame_location = (self.rect.w * i, self.rect.h * j)
-                self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def update(self):
-        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
-        self.image = self.frames[self.cur_frame]
-        if self.hp <= 0:
-            self.dead = True
-            '''
-            death_reason = attacer.attaktype
-            self.death(death_reason)
-            '''
+class Pole:
+    # создание поля
+    def __init__(self, columns, rows):
+        self.columns = columns
+        self.rows = rows
+        self.board = [[0] * columns for _ in range(rows)]
+        self.image = load_image('POLE_IGRY.png')
+        # значения по умолчанию
+        self.x = 100
+        self.y = 50
+        self.cell_size = 80
+
+    def render(self):
+        image1 = pygame.transform.scale(self.image, (1000, 580))
+        screen.blit(image1, (0, 0))
+
+class Zomb(pygame.sprite.Sprite):
+    def __init__(self, x, y, name):
+        pygame.sprite.Sprite.__init__(self)
+        filename = os.path.join('data', name)
+        self.image = pygame.image.load(filename).convert_alpha()
+        self.rect = self.image.get_rect(center=(x, y))
+
+
+
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, image, vel, damage, x, y)
+        self.
 
 
 class Plant(pygame.sprite.Sprite):
@@ -68,7 +67,7 @@ class Plant(pygame.sprite.Sprite):
 
     def check_attack(self):
         if self.attack == 0:
-            if Board[self.line].zombiez != []:
+            if Pole[self.line].zombiez != []:
                 self.attacking = True
             else:
                 self.attacking = False
@@ -79,9 +78,8 @@ class Plant(pygame.sprite.Sprite):
             self.cur_frame = (self.cur_frame + 1) % len(self.frames)
             self.image = self.frames[self.cur_frame]
         else:
-
-
-
+            self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+            self.image = self.frames[self.cur_frame]
 
 
 def load_image(name):
@@ -94,4 +92,17 @@ def load_image(name):
     return image
 
 
+board = Pole(10, 6)
 all_sprites = pygame.sprite.Group()
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    screen.fill((0, 0, 0))
+    board.render()
+    pygame.display.flip()
+
+while pygame.event.wait().type != pygame.QUIT:
+    pass
+pygame.quit()
