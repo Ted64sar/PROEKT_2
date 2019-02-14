@@ -74,22 +74,22 @@ while pygame.event.wait().type != pygame.QUIT:
         board.render()
         if clock ==0:
            zo1 = True
-           z1 = Zomb(800, random.randint(1, 6)*80+20, 'zomby1.png')
+           z1 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby1.png')
         elif clock ==150:
             zo2 = True
-            z2 = Zomb(800, random.randint(1, 6) * 80 + 20, 'zomby2.png')
+            z2 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby2.png')
         elif clock ==300:
             zo3 = True
-            z3 = Zomb(800, random.randint(1, 6) * 80 + 20, 'zomby3.png')
+            z3 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby3.png')
         elif clock ==450:
             zo4 = True
-            z4 = Zomb(800, random.randint(1, 6) * 80 + 20, 'zomby4.png')
+            z4 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby4.png')
         elif clock ==600:
             zo5 = True
-            z5 = Zomb(800, random.randint(1, 6) * 80 + 20, 'zomby5.png')
+            z5 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby5.png')
         elif clock ==750:
             zo6 = True
-            z6 = Zomb(800, random.randint(1, 6) * 80 + 20, 'zomby6.png')
+            z6 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby6.png')
         if z1.rect.x > 0 and zo1:
             screen.blit(z1.image, z1.rect)
             pygame.display.update()
