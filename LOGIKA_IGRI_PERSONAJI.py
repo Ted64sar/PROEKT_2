@@ -2,13 +2,6 @@ import pygame
 import os
 
 
-pygame.init()
-size = width, height = 1050, 660
-screen = pygame.display.set_mode(size)
-clock = 0
-clockT = pygame.time.Clock();
-
-
 class Pole:
     # создание поля
     def __init__(self, columns, rows):
@@ -115,6 +108,11 @@ def load_image(name):
     return image
 
 
+pygame.init()
+size = width, height = 1050, 660
+screen = pygame.display.set_mode(size)
+clock = 0
+clockT = pygame.time.Clock();
 board = Pole(10, 6)
 all_sprites = pygame.sprite.Group()
 running = True
