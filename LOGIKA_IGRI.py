@@ -36,7 +36,7 @@ def load_image(name):
 screen = pygame.display.set_mode((80, 80))
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
-dragon = AnimatedSprite(load_image("PEASHOOT.png"), 8, 1, 0, 0)
+dragon = AnimatedSprite(load_image("PEASHOOT.png"), 8, 2, 0, 0)
 
 running = True
 while running:

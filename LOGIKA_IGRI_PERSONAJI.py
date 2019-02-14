@@ -5,6 +5,8 @@ import os
 pygame.init()
 size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
+clock = 0
+clockT = pygame.time.Clock();
 
 
 class Pole:
@@ -33,14 +35,21 @@ class Zomb(pygame.sprite.Sprite):
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
-
+        super().__init__(all_sprites)
+        filename = os.path.join('data', image)
+        self.image = pygame.image.load(filename).convert_alpha()
+        self.x = x
+        self.y = y
 
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, image, damage, x, y):
+        super().__init__(all_sprites)
         self.damage = damage
         filename = os.path.join('data', image)
         self.image = pygame.image.load(filename).convert_alpha()
+        self.x = x
+        self.y = y
 
 
 class Plant(pygame.sprite.Sprite):
@@ -66,7 +75,13 @@ class Plant(pygame.sprite.Sprite):
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, 80, 80)
-        for j in range(rows):
+        if self.attacking:
+            j = 1
+            for i in range(columns):
+                frame_location = (self.rect.w * i, self.rect.h * j)
+                self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
+        else:
+            j = 2
             for i in range(columns):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
@@ -77,6 +92,8 @@ class Plant(pygame.sprite.Sprite):
                 self.attacking = True
             else:
                 self.attacking = False
+
+
 
 
     def update(self):
@@ -108,6 +125,7 @@ while running:
     screen.fill((0, 0, 0))
     board.render()
     pygame.display.flip()
+
 
 while pygame.event.wait().type != pygame.QUIT:
     pass
