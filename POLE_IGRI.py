@@ -18,7 +18,7 @@ class Pole:
     def __init__(self, columns, rows):
         self.columns = columns
         self.rows = rows
-        self.board = [[0] * columns for _ in range(rows)]
+        self.plants = [[] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         # значения по умолчанию
         self.x = 100

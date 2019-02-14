@@ -3,7 +3,7 @@ import os
 
 
 pygame.init()
-size = width, height = 1000, 580
+size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
 
 
@@ -12,7 +12,7 @@ class Pole:
     def __init__(self, columns, rows):
         self.columns = columns
         self.rows = rows
-        self.board = [[0] * columns for _ in range(rows)]
+        self.plants = [[] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         # значения по умолчанию
         self.x = 100
@@ -21,7 +21,7 @@ class Pole:
 
     def render(self):
         image1 = pygame.transform.scale(self.image, (1000, 580))
-        screen.blit(image1, (0, 0))
+        screen.blit(image1, (50, 0))
 
 class Zomb(pygame.sprite.Sprite):
     def __init__(self, x, y, name):
@@ -32,11 +32,15 @@ class Zomb(pygame.sprite.Sprite):
 
 
 class Explosion(pygame.sprite.Sprite):
+    def __init__(self, image, x, y):
+
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, image, vel, damage, x, y)
-        self.
+    def __init__(self, image, damage, x, y):
+        self.damage = damage
+        filename = os.path.join('data', image)
+        self.image = pygame.image.load(filename).convert_alpha()
 
 
 class Plant(pygame.sprite.Sprite):
@@ -69,7 +73,7 @@ class Plant(pygame.sprite.Sprite):
 
     def check_attack(self):
         if self.attack == 0:
-            if Pole[self.line].zombiez != []:
+            if board.zombies != []:
                 self.attacking = True
             else:
                 self.attacking = False
