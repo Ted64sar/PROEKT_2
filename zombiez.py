@@ -3,7 +3,7 @@ import os
 import random
 
 pygame.init()
-size = width, height = 1000, 580
+size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
 
 Board = []
@@ -15,20 +15,25 @@ class line:
 
 
 class Pole:
-    # создание поля
     def __init__(self, columns, rows):
         self.columns = columns
         self.rows = rows
         self.plants = [[] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
-        # значения по умолчанию
+        self.plant1 = load_image('cucumber.png')
+        self.plant2 = load_image('kaktus1.png')
+        self.plant3 = load_image('shoot.png')
         self.x = 100
         self.y = 50
         self.cell_size = 80
 
+
     def render(self):
         image1 = pygame.transform.scale(self.image, (1000, 580))
-        screen.blit(image1, (0, 0))
+        screen.blit(image1, (50, 0))
+        screen.blit(self.plant1, (150, 580))
+        screen.blit(self.plant2, (250, 580))
+        screen.blit(self.plant3, (350, 580))
 
 
 
@@ -55,13 +60,10 @@ class Zomb(pygame.sprite.Sprite):
 
 f = open('level.txt', 'r')
 zombies = f.read().split(',')
-#for i in zombies:
-#    if random.randint(1, 6)
 z1 = z2 = z3 = z4 = z5 = z6 = Zomb(800, 100, 'zomby1.png')
 
-#z3 = Zomb(800, 260, 'zomby3.png')
 zo1 = zo2 = zo3 = zo4 = zo5 = zo6= False
-screen.fill((0, 0, 0))
+screen.fill((100, 255, 10))
 clock = 0
 clockT = pygame.time.Clock();
 while pygame.event.wait().type != pygame.QUIT:
