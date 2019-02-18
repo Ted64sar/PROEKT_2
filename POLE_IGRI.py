@@ -21,6 +21,9 @@ class Pole:
         self.plants = [[] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         # значения по умолчанию
+        self.plant1 = load_image('CRAZY_CUCUMBER.png')
+        self.plant2 = load_image('KAKTUS.png')
+        self.plant3 = load_image('PEASHOOT.png')
         self.x = 100
         self.y = 50
         self.cell_size = 80

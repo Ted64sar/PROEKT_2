@@ -11,6 +11,10 @@ class Pole:
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         # значения по умолчанию
+        self.plant1 = load_image('CRAZY_CUCUMBER.png')
+        self.plant2 = load_image('KAKTUS.png')
+        self.plant3 = load_image('PEASHOOT.png')
+        self.plant4 = load_image('POWER_PEASHOOT.png')
         self.x = 100
         self.y = 50
         self.cell_size = 80
@@ -23,7 +27,7 @@ class Pole:
             return (y, x)
         elif y > 580 and 850 > x > 150:
             x = (x - 150) // 80
-            return 'plant'+str(x)
+            return 'plant'+str(x + 1)
         else:
             return None
 
@@ -46,7 +50,10 @@ class Pole:
     def render(self):
         image1 = pygame.transform.scale(self.image, (1000, 580))
         screen.blit(image1, (50, 0))
-        all_sprites.draw(screen)
+        screen.blit(self.plant1, (150, 580))
+        screen.blit(self.plant2, (230, 580))
+        screen.blit(self.plant3, (310, 580))
+        screen.blit(self.plant4, (390, 580))
 
 
 class Zomb(pygame.sprite.Sprite):
