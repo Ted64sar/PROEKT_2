@@ -20,6 +20,7 @@ class Pole:
         self.y = 50
         self.cell_size = 80
 
+
     def get_cell(self, mouse_pos):
         x, y = mouse_pos
         if 850 > x > 150 and 530 > y > 50:
@@ -31,7 +32,6 @@ class Pole:
             return 'plant'+str(x)
         else:
             return None
-
 
 
     def on_click(self, cell_coords):
@@ -80,7 +80,6 @@ class Explosion(pygame.sprite.Sprite):
             if z.tile == self.x and z.line == self.y:
                 n = zombies.index(z)
                 del zombies[n]
-
 
 
 class Bullet(pygame.sprite.Sprite):
