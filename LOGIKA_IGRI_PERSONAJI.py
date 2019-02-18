@@ -8,6 +8,7 @@ class Pole:
         self.ChPlant = None
         self.columns = columns
         self.rows = rows
+        self.Pl = []
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         # значения по умолчанию
@@ -27,7 +28,7 @@ class Pole:
             return (y, x)
         elif y > 580 and 850 > x > 150:
             x = (x - 150) // 80
-            return 'plant'+str(x + 1)
+            return 'plant'+str(x)
         else:
             return None
 
@@ -39,6 +40,9 @@ class Pole:
         elif 'plant' in cell_coords:
             self.ChPlant = int(cell_coords[-1])
             print(self.ChPlant)
+        else:
+            if self.ChPlant != None:
+                self.plants[cell_coords[0]][cell_coords[1]] = Plant(self.Pl[self.ChPlant])
 
         print(cell_coords)
 
@@ -161,7 +165,8 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             board.get_click(event.pos)
-
+    for i in all_sprites:
+        i.update()
     screen.fill((100, 255, 10))
     board.render()
     all_sprites.draw(screen)
