@@ -5,18 +5,49 @@ import os
 class Pole:
     # создание поля
     def __init__(self, columns, rows):
+        self.ChPlant = None
         self.columns = columns
         self.rows = rows
-        self.plants = [[] * columns for _ in range(rows)]
+        self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         # значения по умолчанию
         self.x = 100
         self.y = 50
         self.cell_size = 80
 
+    def get_cell(self, mouse_pos):
+        x, y = mouse_pos
+        if 850 > x > 150 and 530 > y > 50:
+            x = (x - 150) // 80
+            y = (y - 50) // 80
+            return (y, x)
+        elif y > 580 and 850 > x > 150:
+            x = (x - 150) // 80
+            return 'plant'+str(x)
+        else:
+            return None
+
+
+
+    def on_click(self, cell_coords):
+        if cell_coords == None:
+            self.ChPlant = None
+        elif 'plant' in cell_coords:
+            self.ChPlant = int(cell_coords[-1])
+            print(self.ChPlant)
+
+        print(cell_coords)
+
+
+    def get_click(self, mouse_pos):
+        cell = self.get_cell(mouse_pos)
+        self.on_click(cell)
+
     def render(self):
         image1 = pygame.transform.scale(self.image, (1000, 580))
         screen.blit(image1, (50, 0))
+        all_sprites.draw(screen)
+
 
 class Zomb(pygame.sprite.Sprite):
     def __init__(self, x, y, name):
@@ -111,6 +142,7 @@ def load_image(name):
 pygame.init()
 size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
+
 clock = 0
 clockT = pygame.time.Clock();
 board = Pole(10, 6)
@@ -120,8 +152,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    screen.fill((0, 0, 0))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            board.get_click(event.pos)
+
+    screen.fill((100, 255, 10))
     board.render()
+    all_sprites.draw(screen)
     pygame.display.flip()
 
 
