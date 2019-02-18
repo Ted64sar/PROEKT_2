@@ -187,5 +187,5 @@ while running:
 
 
 while pygame.event.wait().type != pygame.QUIT:
-   pass
+    pass
 pygame.quit()
