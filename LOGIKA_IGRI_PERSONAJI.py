@@ -77,7 +77,7 @@ class Explosion(pygame.sprite.Sprite):
         self.y = y
     def destroy(self):
         for z in zombies:
-            if z.tile = self.x and z.line = self.y:
+            if z.tile == self.x and z.line == self.y:
                 n = zombies.index(z)
                 del zombies[n]
 
