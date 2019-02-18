@@ -11,7 +11,6 @@ class Pole:
         self.Pl = []
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
-        # значения по умолчанию
         self.plant1 = load_image('CRAZY_CUCUMBER.png')
         self.plant2 = load_image('KAKTUS.png')
         self.plant3 = load_image('PEASHOOT.png')
@@ -75,7 +74,6 @@ class Explosion(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename).convert_alpha()
         self.x = x
         self.y = y
-    def destroy(self):
         for z in zombies:
             if z.tile == self.x and z.line == self.y:
                 n = zombies.index(z)
