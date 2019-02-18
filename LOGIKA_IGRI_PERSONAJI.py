@@ -75,6 +75,12 @@ class Explosion(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename).convert_alpha()
         self.x = x
         self.y = y
+    def destroy(self):
+        for z in zombies:
+            if z.tile = self.x and z.line = self.y:
+                n = zombies.index(z)
+                del zombies[n]
+
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -129,6 +135,12 @@ class Plant(pygame.sprite.Sprite):
                 self.attacking = False
 
 
+    def attacking(self):
+        if self.attacking == True:
+            if self.attack == 0:
+                Bullet()
+
+
 
 
     def update(self):
@@ -153,7 +165,7 @@ def load_image(name):
 pygame.init()
 size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
-
+zombies = []
 clock = 0
 clockT = pygame.time.Clock();
 board = Pole(10, 6)
