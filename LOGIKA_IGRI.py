@@ -45,7 +45,8 @@ while running:
         # при закрытии окна
         if event.type == pygame.QUIT:
             running = False
-    dragon.update()
+    for i in all_sprites:
+        i.update()
     all_sprites.draw(screen)
     clock.tick(10)
 
