@@ -183,7 +183,6 @@ while running:
     all_sprites.draw(screen)
     Rect = (470, 580, 1050, 660)
     pygame.draw.rect(screen, (100, 255, 10), Rect)
-
     pygame.display.flip()
 
 
