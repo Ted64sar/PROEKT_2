@@ -8,7 +8,26 @@ class Pole:
         self.ChPlant = None
         self.columns = columns
         self.rows = rows
-        self.Pl = []
+        '''
+        1 - тип
+        атаки(0 - стрельба, 1 - подрыв)
+        2 - перезарядка
+        3 - запас
+        атаки(растение
+        уничтожается
+        если
+        израсходован)
+        4 - изменение
+        картинки
+        после
+        атаки(True
+        или
+        False)
+        5 - урон
+        6 - здоровье
+        7 - цена
+        '''
+        self.Pl = [[]]
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         self.plant1 = load_image('CRAZY_CUCUMBER.png')
@@ -40,8 +59,9 @@ class Pole:
             self.ChPlant = int(cell_coords[-1])
             print(self.ChPlant)
         else:
+            plants = [load_image('CRAZY_CUCUMBER.png'), load_image('KAKTUS.png'), load_image('PEASHOOT.png'), load_image('POWER_PEASHOOT.png')]
             if self.ChPlant != None:
-                self.plants[cell_coords[0]][cell_coords[1]] = Plant(self.Pl[self.ChPlant])
+                self.plants[cell_coords[0]][cell_coords[1]] = Plant(plants[self.ChPlant],self.Pl[self.ChPlant], cell_coords)
 
         print(cell_coords)
 
