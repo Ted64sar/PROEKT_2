@@ -1,5 +1,6 @@
 import pygame
 import os
+import random
 
 
 class Pole:
@@ -179,6 +180,87 @@ def load_image(name):
     return image
 
 
+pygame.init()
+size = width, height = 1050, 660
+screen = pygame.display.set_mode(size)
+f = open('level.txt', 'r')
+zombies = f.read().split(',')
+z1 = z2 = z3 = z4 = z5 = z6 = Zomb(800, 100, 'zomby1.png')
+
+zo1 = zo2 = zo3 = zo4 = zo5 = zo6= False
+screen.fill((100, 255, 10))
+clock = 0
+clockT = pygame.time.Clock();
+clock = 0
+clockT = pygame.time.Clock();
+board = Pole(10, 6)
+all_sprites = pygame.sprite.Group()
+running = True
+while pygame.event.wait().type != pygame.QUIT:
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                board.get_click(event.pos)
+        for i in all_sprites:
+            i.update()
+        screen.fill((100, 255, 10))
+        board.render()
+        all_sprites.draw(screen)
+        Rect = (470, 580, 1050, 660)
+        pygame.draw.rect(screen, (100, 255, 10), Rect)
+        pygame.display.flip()
+
+        pygame.display.flip()
+        board.render()
+        if clock ==0:
+           zo1 = True
+           z1 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby1.png')
+        elif clock ==150:
+            zo2 = True
+            z2 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby2.png')
+        elif clock ==300:
+            zo3 = True
+            z3 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby3.png')
+        elif clock ==450:
+            zo4 = True
+            z4 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby4.png')
+        elif clock ==600:
+            zo5 = True
+            z5 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby5.png')
+        elif clock ==750:
+            zo6 = True
+            z6 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby6.png')
+        if z1.rect.x > 0 and zo1:
+            screen.blit(z1.image, z1.rect)
+            pygame.display.update()
+            z1.rect.x -= 2
+        if z2.rect.x > 0 and zo2:
+            screen.blit(z2.image, z2.rect)
+            pygame.display.update()
+            z2.rect.x -= 2
+        if z3.rect.x > 0 and zo3:
+            screen.blit(z3.image, z3.rect)
+            pygame.display.update()
+            z3.rect.x -= 2
+        if z4.rect.x > 0 and zo4:
+            screen.blit(z4.image, z4.rect)
+            pygame.display.update()
+            z4.rect.x -= 2
+        if z5.rect.x > 0 and zo5:
+            screen.blit(z5.image, z5.rect)
+            pygame.display.update()
+            z5.rect.x -= 2
+        if z6.rect.x > 0 and zo6:
+            screen.blit(z6.image, z6.rect)
+            pygame.display.update()
+            z6.rect.x -= 2
+        pygame.time.delay(10)
+        clock +=1
+
+pygame.quit()
 pygame.init()
 size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
