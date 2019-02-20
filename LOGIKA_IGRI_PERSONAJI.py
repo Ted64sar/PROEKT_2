@@ -28,7 +28,7 @@ class Pole:
         6 - здоровье
         7 - цена
         '''
-        self.Pl = [[]]
+        self.Pl = [[0, 1, 1, True, 1000, 100, 55]]
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         self.plant1 = load_image('CRAZY_CUCUMBER.png')
@@ -191,8 +191,6 @@ zo1 = zo2 = zo3 = zo4 = zo5 = zo6= False
 screen.fill((100, 255, 10))
 clock = 0
 clockT = pygame.time.Clock();
-clock = 0
-clockT = pygame.time.Clock();
 board = Pole(10, 6)
 all_sprites = pygame.sprite.Group()
 running = True
@@ -258,34 +256,6 @@ while pygame.event.wait().type != pygame.QUIT:
             pygame.display.update()
             z6.rect.x -= 2
         pygame.time.delay(10)
-        clock +=1
+        clock += 1
 
-pygame.quit()
-pygame.init()
-size = width, height = 1050, 660
-screen = pygame.display.set_mode(size)
-zombies = []
-clock = 0
-clockT = pygame.time.Clock();
-board = Pole(10, 6)
-all_sprites = pygame.sprite.Group()
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            board.get_click(event.pos)
-    for i in all_sprites:
-        i.update()
-    screen.fill((100, 255, 10))
-    board.render()
-    all_sprites.draw(screen)
-    Rect = (470, 580, 1050, 660)
-    pygame.draw.rect(screen, (100, 255, 10), Rect)
-    pygame.display.flip()
-
-
-while pygame.event.wait().type != pygame.QUIT:
-    pass
 pygame.quit()
