@@ -28,13 +28,13 @@ class Pole:
         6 - здоровье
         7 - цена
         '''
-        self.Pl = [[0, 1, 1, True, 1000, 100, 55]]
+        self.Pl = [[1, 1, 1, True, 1000, 100, 55], [0, 1, 10000, True, 50, 100, 100]]
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
-        self.plant1 = load_image('CRAZY_CUCUMBER.png')
-        self.plant2 = load_image('KAKTUS.png')
-        self.plant3 = load_image('PEASHOOT.png')
-        self.plant4 = load_image('POWER_PEASHOOT.png')
+        self.plant1 = load_image('CRAZY_CUCUMBER_I.png')
+        self.plant2 = load_image('KAKTUS_I.png')
+        self.plant3 = load_image('PEASHOOT_I.png')
+        self.plant4 = load_image('POWER_PEASHOOT_I.png')
         self.x = 100
         self.y = 50
         self.cell_size = 80
@@ -72,12 +72,14 @@ class Pole:
         self.on_click(cell)
 
     def render(self):
-        image1 = pygame.transform.scale(self.image, (1000, 580))
-        screen.blit(image1, (50, 0))
         screen.blit(self.plant1, (150, 580))
         screen.blit(self.plant2, (230, 580))
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
+        for i in range(6):
+            for j in range(10):
+                Rect = ((j * 80 + 150, i * 80 + 50), (80, 80))
+                pygame.draw.rect(screen, (0, 255, 0), Rect, 1)
 
 
 class Zomb(pygame.sprite.Sprite):
@@ -207,8 +209,7 @@ while pygame.event.wait().type != pygame.QUIT:
         screen.fill((100, 255, 10))
         board.render()
         all_sprites.draw(screen)
-        Rect = (470, 580, 1050, 660)
-        pygame.draw.rect(screen, (100, 255, 10), Rect)
+
         pygame.display.flip()
 
         pygame.display.flip()
