@@ -84,14 +84,7 @@ class Pole:
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
 
-        #image1 = pygame.transform.scale(self.image, (1000, 580))
-        #screen.blit(image1, (100, 0))
-        '''
-        for i in range(6):
-            for j in range(10):
-                Rect = ((j * 80 + 150, i * 80 + 50), (80, 80))
-                pygame.draw.rect(screen, (0, 255, 0), Rect, 1)
-        '''
+
 
 
 class Zomb(pygame.sprite.Sprite):
@@ -114,19 +107,17 @@ class Explosion(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename).convert_alpha()
         self.x = x
         self.y = y
-        for z in zombies:
-            if z.tile == self.x and z.line == self.y:
-                n = zombies.index(z)
-                del zombies[n]
 
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, image, damage, x, y):
-        super().__init__(all_sprites)
+        super().__init__(bulletss)
         self.damage = damage
-        filename = os.path.join('data', image)
-        self.image = pygame.image.load(filename).convert_alpha()
-        self.rect = self.rect.move(self.x * 80 + 150, 50 + y * 80)
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect = self.rect.move(x * 80 + 150, 50 + y * 80)
+    def update(self):
+        self.rect.x += 4
 
 
 class Plant(pygame.sprite.Sprite):
@@ -146,6 +137,7 @@ class Plant(pygame.sprite.Sprite):
         self.damage = type[4]
         self.health_max = type[5]
         self.price = type[6]
+        self.weapon = type[7]
         self.attacking = False
         self.rect.x = self.number
 
@@ -173,17 +165,20 @@ class Plant(pygame.sprite.Sprite):
                 self.attacking = False
 
     def attacking(self):
-        if self.attacking == True:
+        #if self.attacking == True:
             if self.attack == 0:
-                Bullet()
+                bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
 
     def update(self):
+        if self.attack == 0:
+            bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
         if not(self.attacking):
             self.cur_frame = (self.cur_frame + 1) % len(self.frames)
             self.image = self.frames[self.cur_frame]
         else:
             self.cur_frame = (self.cur_frame + 1) % len(self.frames)
             self.image = self.frames[self.cur_frame]
+
 
 
 def load_image(name):
@@ -217,10 +212,12 @@ clock = 0
 clockT = pygame.time.Clock();
 board = Pole(10, 6)
 all_sprites = pygame.sprite.Group()
+bulletss = pygame.sprite.Group()
 image1 = pygame.transform.scale(board.image, (1000, 580))
 screen.blit(image1, (100, 0))
 running = True
 zombies = []
+bullets = []
 
 while pygame.event.wait().type != pygame.QUIT:
     running = True
@@ -238,8 +235,12 @@ while pygame.event.wait().type != pygame.QUIT:
         screen.blit(image1, (0, 0))
         #screen.fill((100, 255, 10))
         board.render()
-        all_sprites.draw(screen)
+
+        bulletss.draw(screen)
         zombys.draw(screen)
+        all_sprites.draw(screen)
+        for b in bullets:
+            b.update()
         sun()
 
         pygame.display.flip()
