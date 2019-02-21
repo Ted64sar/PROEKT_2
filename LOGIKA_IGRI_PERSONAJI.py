@@ -41,6 +41,7 @@ class Pole:
         self.x = 100
         self.y = 50
         self.cell_size = 80
+        self.suns = 3000
 
 
     def get_cell(self, mouse_pos):
@@ -65,7 +66,10 @@ class Pole:
         else:
             plants = [load_image('CRAZY_CUCUMBER.png'), load_image('KAKTUS.png'), load_image('PEASHOOT.png'), load_image('POWER_PEASHOOT.png')]
             if self.ChPlant != None:
-                self.plants[cell_coords[0]][cell_coords[1]] = Plant(plants[self.ChPlant],self.Pl[self.ChPlant], cell_coords)
+                Pl = Plant(plants[self.ChPlant], self.Pl[self.ChPlant], cell_coords)
+                if Pl.price <= self.suns:
+                    self.plants[cell_coords[0]][cell_coords[1]] = Pl
+                    self.suns -= self.plants[cell_coords[0]][cell_coords[1]].price
                 self.ChPlant = None
 
         print(cell_coords)
@@ -191,7 +195,15 @@ def load_image(name):
         raise SystemExit(message)
     return image
 
+def sun():
 
+    font = pygame.font.Font(None, 50)
+    text = font.render(str(board.suns), 1, (255, 255, 0))
+    text_x = 55
+    text_y = 0
+    text_w = text.get_width()
+    text_h = text.get_height()
+    screen.blit(text, (text_x, text_y))
 pygame.init()
 
 zombys = pygame.sprite.Group()
@@ -222,10 +234,13 @@ while pygame.event.wait().type != pygame.QUIT:
             i.update()
         image1 = pygame.transform.scale(board.image, (1000, 580))
         screen.blit(image1, (50, 0))
+        image1 = pygame.transform.scale(load_image('CARPET.png'), (50, 580))
+        screen.blit(image1, (0, 0))
         #screen.fill((100, 255, 10))
         board.render()
         all_sprites.draw(screen)
         zombys.draw(screen)
+        sun()
 
         pygame.display.flip()
 
