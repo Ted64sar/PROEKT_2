@@ -66,6 +66,8 @@ class Pole:
             plants = [load_image('CRAZY_CUCUMBER.png'), load_image('KAKTUS.png'), load_image('PEASHOOT.png'), load_image('POWER_PEASHOOT.png')]
             if self.ChPlant != None:
                 self.plants[cell_coords[0]][cell_coords[1]] = Plant(plants[self.ChPlant],self.Pl[self.ChPlant], cell_coords)
+                self.ChPlant = None
+
         print(cell_coords)
 
     def get_click(self, mouse_pos):
@@ -88,13 +90,17 @@ class Pole:
         '''
 
 
-
 class Zomb(pygame.sprite.Sprite):
     def __init__(self, x, y, name):
-        pygame.sprite.Sprite.__init__(self)
-        filename = os.path.join('data', name)
+        pygame.sprite.Sprite.__init__(self, zombys)
+        filename = os.path.join('data', 'zomby'+str(name)+'.png')
         self.image = pygame.image.load(filename).convert_alpha()
         self.rect = self.image.get_rect(center=(x, y))
+        self.go = True
+        self.health = 750
+    def update(self):
+        if self.go:
+            self.rect.x -= 2
 
 
 class Explosion(pygame.sprite.Sprite):
@@ -162,14 +168,10 @@ class Plant(pygame.sprite.Sprite):
             else:
                 self.attacking = False
 
-
     def attacking(self):
         if self.attacking == True:
             if self.attack == 0:
                 Bullet()
-
-
-
 
     def update(self):
         if not(self.attacking):
@@ -191,22 +193,23 @@ def load_image(name):
 
 
 pygame.init()
+
+zombys = pygame.sprite.Group()
 size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
+
 f = open('level.txt', 'r')
 zombies = f.read().split(',')
-z1 = z2 = z3 = z4 = z5 = z6 = Zomb(800, 100, 'zomby1.png')
-
-zo1 = zo2 = zo3 = zo4 = zo5 = zo6= False
 screen.fill((100, 255, 10))
 clock = 0
 clockT = pygame.time.Clock();
 board = Pole(10, 6)
 all_sprites = pygame.sprite.Group()
-running = True
-
 image1 = pygame.transform.scale(board.image, (1000, 580))
-screen.blit(image1, (50, 0))
+screen.blit(image1, (100, 0))
+running = True
+zombies = []
+
 while pygame.event.wait().type != pygame.QUIT:
     running = True
     while running:
@@ -217,57 +220,24 @@ while pygame.event.wait().type != pygame.QUIT:
                 board.get_click(event.pos)
         for i in all_sprites:
             i.update()
-
+        image1 = pygame.transform.scale(board.image, (1000, 580))
+        screen.blit(image1, (50, 0))
+        #screen.fill((100, 255, 10))
         board.render()
         all_sprites.draw(screen)
+        zombys.draw(screen)
 
         pygame.display.flip()
 
         pygame.display.flip()
         board.render()
-        if clock ==0:
+        if clock % 150 == 0:
            zo1 = True
-           z1 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby1.png')
-        elif clock ==150:
-            zo2 = True
-            z2 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby2.png')
-        elif clock ==300:
-            zo3 = True
-            z3 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby3.png')
-        elif clock ==450:
-            zo4 = True
-            z4 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby4.png')
-        elif clock ==600:
-            zo5 = True
-            z5 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby5.png')
-        elif clock ==750:
-            zo6 = True
-            z6 = Zomb(800, random.randint(1, 6) * 80 + 10, 'zomby6.png')
-        if z1.rect.x > 0 and zo1:
-            screen.blit(z1.image, z1.rect)
-            pygame.display.update()
-            z1.rect.x -= 2
-        if z2.rect.x > 0 and zo2:
-            screen.blit(z2.image, z2.rect)
-            pygame.display.update()
-            z2.rect.x -= 2
-        if z3.rect.x > 0 and zo3:
-            screen.blit(z3.image, z3.rect)
-            pygame.display.update()
-            z3.rect.x -= 2
-        if z4.rect.x > 0 and zo4:
-            screen.blit(z4.image, z4.rect)
-            pygame.display.update()
-            z4.rect.x -= 2
-        if z5.rect.x > 0 and zo5:
-            screen.blit(z5.image, z5.rect)
-            pygame.display.update()
-            z5.rect.x -= 2
-        if z6.rect.x > 0 and zo6:
-            screen.blit(z6.image, z6.rect)
-            pygame.display.update()
-            z6.rect.x -= 2
-        pygame.time.delay(30)
+           zombies.append(Zomb(1100, random.randint(1, 6) * 80 + 10, random.randint(1, 6)))
+        for z in zombies:
+            z.update()
+        pygame.time.delay(50)
         clock += 1
+
 
 pygame.quit()

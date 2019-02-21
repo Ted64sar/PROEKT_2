@@ -52,11 +52,10 @@ board = Pole(10, 6)
 
 class Zomb(pygame.sprite.Sprite):
     def __init__(self, x, y, name):
-        pygame.sprite.Sprite.__init__(self)
-        filename = os.path.join('data', name)
+        pygame.sprite.Sprite.__init__(self, zombys)
+        filename = os.path.join('data', 'zomby'+str(name)+'.png')
         self.image = pygame.image.load(filename).convert_alpha()
         self.rect = self.image.get_rect(center=(x, y))
-
 
 f = open('level.txt', 'r')
 zombies = f.read().split(',')
