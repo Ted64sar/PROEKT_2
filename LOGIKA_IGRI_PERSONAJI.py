@@ -9,6 +9,7 @@ class Pole:
         self.ChPlant = None
         self.columns = columns
         self.rows = rows
+        self.kills = 0
         '''
         1 - тип
         атаки(0 - стрельба, 1 - подрыв)
@@ -115,10 +116,12 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__(bulletss)
         self.damage = damage
         self.image = image
+        self.line = y
         self.rect = self.image.get_rect()
         self.rect = self.rect.move(x * 80 + 150, 50 + y * 80)
     def update(self):
-        self.rect.x += 4
+        self.rect.x += 10
+
 
 
 class Plant(pygame.sprite.Sprite):
@@ -147,13 +150,7 @@ class Plant(pygame.sprite.Sprite):
 
     def cut_sheet(self, sheet, columns):
         self.rect = pygame.Rect(0, 0, 80, 80)
-        if self.attacking:
-            j = 1
-            for i in range(columns):
-                frame_location = (self.rect.w * i, self.rect.h * j)
-                self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
-        else:
-            j = 2
+        for j in range(2):
             for i in range(columns):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
@@ -166,22 +163,22 @@ class Plant(pygame.sprite.Sprite):
             else:
                 self.attacking = False
 
-    def attacking_1(self):
+    def Attacking(self):
         if self.attacking == True:
             if self.attack == 0:
                 bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
 
     def update(self):
-        self.check_attack()
-        self.attacking_1()
-        if not(self.attacking):
-            self.cur_frame = (self.cur_frame + 1) % len(self.frames)
-            self.image = self.frames[self.cur_frame]
-        else:
-            self.cur_frame = (self.cur_frame + 1) % len(self.frames)
-            self.image = self.frames[self.cur_frame]
+        if self.attack == 0:
+            bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
+        if self.attack == 1:
+            Explosion('G_BOOM')
+        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+        self.image = self.frames[self.cur_frame]
 
-
+def end_of_game():
+    image1 = pygame.transform.scale((load_image('CARPET.png'), (1050, 660)))
+    screen.blit(image1, (50, 0))
 
 def load_image(name):
     fullname = os.path.join('data', name)
@@ -191,6 +188,15 @@ def load_image(name):
         print('Cannot load image:', name)
         raise SystemExit(message)
     return image
+
+def score():
+    font = pygame.font.Font(None, 50)
+    text = font.render('Score: '+str(board.kills), 1, (255, 0, 0))
+    text_x = 150
+    text_y = 0
+    text_w = text.get_width()
+    text_h = text.get_height()
+    screen.blit(text, (text_x, text_y))
 
 def sun():
 
@@ -206,9 +212,6 @@ pygame.init()
 zombys = pygame.sprite.Group()
 size = width, height = 1050, 660
 screen = pygame.display.set_mode(size)
-
-f = open('level.txt', 'r')
-zombies = f.read().split(',')
 screen.fill((100, 255, 10))
 clock = 0
 clockT = pygame.time.Clock();
@@ -233,29 +236,35 @@ while pygame.event.wait().type != pygame.QUIT:
             i.update()
         image1 = pygame.transform.scale(board.image, (1000, 580))
         screen.blit(image1, (50, 0))
+        bulletss.draw(screen)
         image1 = pygame.transform.scale(load_image('CARPET.png'), (50, 580))
         screen.blit(image1, (0, 0))
-        #screen.fill((100, 255, 10))
         board.render()
 
-        bulletss.draw(screen)
         zombys.draw(screen)
         all_sprites.draw(screen)
         for b in bullets:
             b.update()
+            for z in zombies:
+                if z.line == b.line:
+                    if abs(z.rect.x - b.rect.x) <= 20:
+                        z.health -= b.damage
+                        del bullets[bullets.index(b)]
+
         sun()
+        score()
 
         pygame.display.flip()
 
         pygame.display.flip()
         board.render()
         if clock % 150 == 0:
-           zo1 = True
            zombies.append(Zomb(1100, random.randint(1, 6) * 80 + 10, random.randint(1, 6)))
         for z in zombies:
             z.update()
+            if z.health <= 0:
+                del zombies[zombies.index(z)]
+                board.kills += 1
         pygame.time.delay(50)
         clock += 1
-
-
 pygame.quit()
