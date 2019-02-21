@@ -95,6 +95,7 @@ class Zomb(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
         self.go = True
         self.health = 750
+        self.line = (y - 10)//80
     def update(self):
         if self.go:
             self.rect.x -= 2
@@ -159,19 +160,20 @@ class Plant(pygame.sprite.Sprite):
 
     def check_attack(self):
         if self.attack == 0:
-            if board.zombies != []:
-                self.attacking = True
+            for z in zombies:
+                if z.line == self.line:
+                    self.attacking = True
             else:
                 self.attacking = False
 
-    def attacking(self):
-        #if self.attacking == True:
+    def attacking_1(self):
+        if self.attacking == True:
             if self.attack == 0:
                 bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
 
     def update(self):
-        if self.attack == 0:
-            bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
+        self.check_attack()
+        self.attacking_1()
         if not(self.attacking):
             self.cur_frame = (self.cur_frame + 1) % len(self.frames)
             self.image = self.frames[self.cur_frame]
