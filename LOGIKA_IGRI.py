@@ -42,7 +42,6 @@ running = True
 while running:
 
     for event in pygame.event.get():
-        # при закрытии окна
         if event.type == pygame.QUIT:
             running = False
     for i in all_sprites:

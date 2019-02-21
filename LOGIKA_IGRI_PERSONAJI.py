@@ -28,7 +28,7 @@ class Pole:
         6 - здоровье
         7 - цена
         '''
-        self.Pl = [[1, 1, 1, True, 1000, 100, 55], [0, 1, 10000, True, 50, 100, 100]]
+        self.Pl = [[1, 1, 1, True, 1000, 100, 55], [0, 1, 10000, True, 75, 250, 150], [0, 1, 10000, True, 50, 100, 100], [0, 1, 10000, True, 125, 100, 175]]
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         self.plant1 = load_image('CRAZY_CUCUMBER_I.png')
@@ -134,7 +134,7 @@ class Plant(pygame.sprite.Sprite):
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet, columns):
         self.rect = pygame.Rect(0, 0, 80, 80)
         if self.attacking:
             j = 1
