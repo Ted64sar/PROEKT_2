@@ -42,11 +42,11 @@ class Pole:
 
     def get_cell(self, mouse_pos):
         x, y = mouse_pos
-        if 850 > x > 150 and 530 > y > 50:
+        if 950 > x > 150 and 530 > y > 50:
             x = (x - 150) // 80
             y = (y - 50) // 80
             return (y, x)
-        elif y > 580 and 850 > x > 150:
+        elif y > 580 and 470 > x > 150:
             x = (x - 150) // 80
             return 'plant'+str(x)
         else:
@@ -76,10 +76,15 @@ class Pole:
         screen.blit(self.plant2, (230, 580))
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
+        '''
+        image1 = pygame.transform.scale(self.image, (1000, 580))
+        screen.blit(image1, (100, 0))
+        '''
         for i in range(6):
             for j in range(10):
                 Rect = ((j * 80 + 150, i * 80 + 50), (80, 80))
                 pygame.draw.rect(screen, (0, 255, 0), Rect, 1)
+
 
 
 class Zomb(pygame.sprite.Sprite):
@@ -116,9 +121,10 @@ class Bullet(pygame.sprite.Sprite):
 class Plant(pygame.sprite.Sprite):
     def __init__(self, sheet, type, pos):
         super().__init__(all_sprites)
-        columns, rows, x, y = 8, 2, 0, 0
+        columns, rows = 8, 2
+
         self.frames = []
-        self.cut_sheet(sheet, columns, rows)
+        self.cut_sheet(sheet, columns)
         self.cur_frame = 0
         self.line = pos[0]
         self.number = pos[1]
@@ -130,9 +136,10 @@ class Plant(pygame.sprite.Sprite):
         self.health_max = type[5]
         self.price = type[6]
         self.attacking = False
+        self.rect.x = self.number
 
         self.image = self.frames[self.cur_frame]
-        self.rect = self.rect.move(x, y)
+        self.rect = self.rect.move(self.number * 80 + 150, 50 + self.line*80)
 
     def cut_sheet(self, sheet, columns):
         self.rect = pygame.Rect(0, 0, 80, 80)
@@ -256,7 +263,7 @@ while pygame.event.wait().type != pygame.QUIT:
             screen.blit(z6.image, z6.rect)
             pygame.display.update()
             z6.rect.x -= 2
-        pygame.time.delay(10)
+        pygame.time.delay(30)
         clock += 1
 
 pygame.quit()
