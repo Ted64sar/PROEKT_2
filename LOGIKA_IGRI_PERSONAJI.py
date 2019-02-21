@@ -28,7 +28,10 @@ class Pole:
         6 - здоровье
         7 - цена
         '''
-        self.Pl = [[1, 1, 1, True, 1000, 100, 55], [0, 1, 10000, True, 75, 250, 150], [0, 1, 10000, True, 50, 100, 100], [0, 1, 10000, True, 125, 100, 175]]
+        self.Pl = [[1, 1, 1, True, 1000, 100, 55, load_image('G_BOOM.png')],
+                   [0, 1, 10000, True, 75, 250, 150, load_image('SPIKES.png')],
+                   [0, 1, 10000, True, 50, 100, 100, load_image('PEA.png')],
+                   [0, 1, 10000, True, 125, 100, 175, load_image('POWER_PEA.png')]]
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         self.plant1 = load_image('CRAZY_CUCUMBER_I.png')
@@ -63,9 +66,7 @@ class Pole:
             plants = [load_image('CRAZY_CUCUMBER.png'), load_image('KAKTUS.png'), load_image('PEASHOOT.png'), load_image('POWER_PEASHOOT.png')]
             if self.ChPlant != None:
                 self.plants[cell_coords[0]][cell_coords[1]] = Plant(plants[self.ChPlant],self.Pl[self.ChPlant], cell_coords)
-
         print(cell_coords)
-
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
@@ -76,14 +77,15 @@ class Pole:
         screen.blit(self.plant2, (230, 580))
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
-        '''
-        image1 = pygame.transform.scale(self.image, (1000, 580))
-        screen.blit(image1, (100, 0))
+
+        #image1 = pygame.transform.scale(self.image, (1000, 580))
+        #screen.blit(image1, (100, 0))
         '''
         for i in range(6):
             for j in range(10):
                 Rect = ((j * 80 + 150, i * 80 + 50), (80, 80))
                 pygame.draw.rect(screen, (0, 255, 0), Rect, 1)
+        '''
 
 
 
@@ -114,8 +116,7 @@ class Bullet(pygame.sprite.Sprite):
         self.damage = damage
         filename = os.path.join('data', image)
         self.image = pygame.image.load(filename).convert_alpha()
-        self.x = x
-        self.y = y
+        self.rect = self.rect.move(self.x * 80 + 150, 50 + y * 80)
 
 
 class Plant(pygame.sprite.Sprite):
@@ -203,6 +204,9 @@ clockT = pygame.time.Clock();
 board = Pole(10, 6)
 all_sprites = pygame.sprite.Group()
 running = True
+
+image1 = pygame.transform.scale(board.image, (1000, 580))
+screen.blit(image1, (50, 0))
 while pygame.event.wait().type != pygame.QUIT:
     running = True
     while running:
@@ -213,7 +217,7 @@ while pygame.event.wait().type != pygame.QUIT:
                 board.get_click(event.pos)
         for i in all_sprites:
             i.update()
-        screen.fill((100, 255, 10))
+
         board.render()
         all_sprites.draw(screen)
 
