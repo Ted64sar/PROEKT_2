@@ -89,14 +89,15 @@ class Pole:
 
 
 class Zomb(pygame.sprite.Sprite):
-    def __init__(self, x, y, name):
+    def __init__(self, x, y, name, health):
         pygame.sprite.Sprite.__init__(self, zombys)
         filename = os.path.join('data', 'zomby'+str(name)+'.png')
         self.image = pygame.image.load(filename).convert_alpha()
         self.rect = self.image.get_rect(center=(x, y))
         self.go = True
-        self.health = 750
+        self.health = health
         self.line = (y - 10)//80
+        self.rect.y += 80
     def update(self):
         if self.go:
             self.rect.x -= 2
@@ -164,8 +165,11 @@ class Plant(pygame.sprite.Sprite):
                     self.attacking = True
             else:
                 self.attacking = False
-
     def update(self):
+        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+        self.image = self.frames[self.cur_frame]
+
+    def A_update(self):
         if self.attack == 0:
             bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
         if self.attack == 1:
@@ -176,8 +180,8 @@ class Plant(pygame.sprite.Sprite):
         self.image = self.frames[self.cur_frame]
 
 def end_of_game():
-    image1 = pygame.transform.scale((load_image('CARPET.png'), (1050, 660)))
-    screen.blit(image1, (50, 0))
+    endimage = pygame.transform.scale((load_image('CARPET.png'), (1050, 660)))
+    screen.blit(endimage, (50, 0))
 
 def load_image(name):
     fullname = os.path.join('data', name)
@@ -223,7 +227,8 @@ screen.blit(image1, (100, 0))
 running = True
 zombies = []
 bullets = []
-
+apaer_speed = 200
+heal = 750
 while pygame.event.wait().type != pygame.QUIT:
     running = True
     while running:
@@ -233,7 +238,10 @@ while pygame.event.wait().type != pygame.QUIT:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 board.get_click(event.pos)
         for i in all_sprites:
-            i.update()
+            if clock % 16 == 0:
+                i.A_update()
+            else:
+                i.update()
         image1 = pygame.transform.scale(board.image, (1000, 580))
         screen.blit(image1, (50, 0))
         bulletss.draw(screen)
@@ -250,7 +258,7 @@ while pygame.event.wait().type != pygame.QUIT:
                     if abs(z.rect.x - b.rect.x) <= 20:
                         z.health -= b.damage
                         bulletss.remove(b)
-                        del bullets[bullets.index(b)]
+                        #del bullets[bullets.index(b)]
 
         sun()
         score()
@@ -259,8 +267,8 @@ while pygame.event.wait().type != pygame.QUIT:
 
         pygame.display.flip()
         board.render()
-        if clock % 150 == 0:
-           zombies.append(Zomb(1100, random.randint(1, 6) * 80 + 10, random.randint(1, 6)))
+        if clock % apaer_speed == 0:
+           zombies.append(Zomb(1100, random.randint(0, 5) * 80 + 10, random.randint(1, 6), heal))
         for z in zombies:
             z.update()
             if z.health <= 0:
@@ -268,6 +276,23 @@ while pygame.event.wait().type != pygame.QUIT:
                 del zombies[zombies.index(z)]
                 board.kills += 1
         pygame.time.delay(50)
-        expl.remove()
+        expl.remove(all(expl))
+        if clock % 1000 == 0:
+            apaer_speed -= 20
+            for i in range(6):
+                zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
+                heal += 250
+        if clock % 1075 == 0 and clock > 0:
+            apaer_speed -= 20
+            for i in range(6):
+                zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
+                heal += 250
+        if clock % 1150 == 0 and clock > 1000:
+            apaer_speed -= 20
+            for i in range(6):
+                zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
+                heal += 250
         clock += 1
+
+        expl.remove(all(expl))
 pygame.quit()
