@@ -180,8 +180,10 @@ class Plant(pygame.sprite.Sprite):
         self.image = self.frames[self.cur_frame]
 
 def end_of_game():
-    endimage = pygame.transform.scale((load_image('CARPET.png'), (1050, 660)))
-    screen.blit(endimage, (50, 0))
+    image1 = load_image('END.png')
+    screen.blit(image1, (0, 0))
+    pygame.display.flip()
+    pygame.time.delay(100)
 
 def load_image(name):
     fullname = os.path.join('data', name)
@@ -259,12 +261,8 @@ while pygame.event.wait().type != pygame.QUIT:
                         z.health -= b.damage
                         bulletss.remove(b)
                         #del bullets[bullets.index(b)]
-
         sun()
         score()
-
-        pygame.display.flip()
-
         pygame.display.flip()
         board.render()
         if clock % apaer_speed == 0:
@@ -293,6 +291,8 @@ while pygame.event.wait().type != pygame.QUIT:
                 zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                 heal += 250
         clock += 1
-
-        expl.remove(all(expl))
+        for z in zombys:
+            if z.rect.x <= 0:
+                end_of_game()
+        expl.remove(all([]))
 pygame.quit()
