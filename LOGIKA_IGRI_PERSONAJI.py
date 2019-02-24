@@ -286,7 +286,8 @@ while pygame.event.wait().type != pygame.QUIT:
                 zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                 heal += 250
         if clock % 1150 == 0 and clock > 1000:
-            apaer_speed -= 20
+            if apaer_speed >= 30:
+                apaer_speed -= 20
             for i in range(6):
                 zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                 heal += 250
