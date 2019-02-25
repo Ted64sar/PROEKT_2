@@ -63,6 +63,8 @@ class Pole:
         elif y > 620 and 80 > x:
             if self.time == 50:
                 self.time = 25
+            elif self.time == 25:
+                self.time = 10
             else:
                 self.time = 50
         else:
