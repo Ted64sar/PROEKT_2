@@ -139,7 +139,6 @@ class Plant(pygame.sprite.Sprite):
     def __init__(self, sheet, type, pos):
         super().__init__(all_sprites)
         columns, rows = 8, 2
-
         self.frames = []
         self.cut_sheet(sheet, columns)
         self.cur_frame = 0
@@ -301,6 +300,8 @@ while pygame.event.wait().type != pygame.QUIT:
                     zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                     heal += 250
             clock += 1
+            for e in expl:
+                expl.remove(e)
             for z in zombys:
                 if z.rect.x <= 0:
                     end_of_game()
