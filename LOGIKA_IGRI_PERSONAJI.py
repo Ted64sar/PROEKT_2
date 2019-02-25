@@ -6,6 +6,8 @@ import random
 class Pole:
     # создание поля
     def __init__(self, columns, rows):
+        self.time = 50
+        self.paused = False
         self.ChPlant = None
         self.columns = columns
         self.rows = rows
@@ -41,6 +43,7 @@ class Pole:
         self.plant3 = load_image('PEASHOOT_I.png')
         self.plant4 = load_image('POWER_PEASHOOT_I.png')
         self.plant5 = load_image('SUNFLOWER_I.png')
+        self.pannel = load_image('PANNEL.png')
         self.x = 100
         self.y = 50
         self.cell_size = 80
@@ -57,6 +60,11 @@ class Pole:
         elif y > 580 and 550 > x > 150:
             x = (x - 150) // 80
             return 'plant'+str(x)
+        elif y > 620 and 80 > x:
+            if self.time == 50:
+                self.time = 25
+            else:
+                self.time = 50
         else:
             return None
 
@@ -94,6 +102,7 @@ class Pole:
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
         screen.blit(self.plant5, (470, 580))
+        screen.blit(self.pannel, (0, 580))
 
 
 
@@ -292,8 +301,6 @@ while pygame.event.wait().type != pygame.QUIT:
                     zombys.remove(z)
                     del zombies[zombies.index(z)]
                     board.kills += 1
-            pygame.time.delay(50)
-            expl.remove(all(expl))
             if clock % 1000 == 0 and clock > 0:
                 apaer_speed -= 20
                 for i in range(6):
@@ -317,6 +324,7 @@ while pygame.event.wait().type != pygame.QUIT:
                 if z.rect.x <= 0:
                     end_of_game()
                     board.end = True
+            pygame.time.delay(board.time)
         else:
             end_of_game()
 
