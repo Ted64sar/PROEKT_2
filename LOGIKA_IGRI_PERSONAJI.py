@@ -32,13 +32,15 @@ class Pole:
         self.Pl = [[1, 1, 1, True, 1000, 100, 25, load_image('G_BOOM.png')],
                    [0, 1, 10000, True, 75, 250, 150, load_image('SPIKES.png')],
                    [0, 1, 10000, True, 50, 100, 100, load_image('PEA.png')],
-                   [0, 1, 10000, True, 125, 100, 175, load_image('POWER_PEA.png')]]
+                   [0, 1, 10000, True, 125, 100, 175, load_image('POWER_PEA.png')],
+                   [2, 1, 10000, True, 50, 800, 50, load_image('SUNFLOWER.png')]]
         self.plants = [[None] * columns for _ in range(rows)]
         self.image = load_image('POLE_IGRY.png')
         self.plant1 = load_image('CRAZY_CUCUMBER_I.png')
         self.plant2 = load_image('KAKTUS_I.png')
         self.plant3 = load_image('PEASHOOT_I.png')
         self.plant4 = load_image('POWER_PEASHOOT_I.png')
+        self.plant5 = load_image('SUNFLOWER_I.png')
         self.x = 100
         self.y = 50
         self.cell_size = 80
@@ -52,7 +54,7 @@ class Pole:
             x = (x - 150) // 80
             y = (y - 50) // 80
             return (y, x)
-        elif y > 580 and 470 > x > 150:
+        elif y > 580 and 550 > x > 150:
             x = (x - 150) // 80
             return 'plant'+str(x)
         else:
@@ -66,7 +68,8 @@ class Pole:
             self.ChPlant = int(cell_coords[-1])
             print(self.ChPlant)
         else:
-            plants = [load_image('CRAZY_CUCUMBER.png'), load_image('KAKTUS.png'), load_image('PEASHOOT.png'), load_image('POWER_PEASHOOT.png')]
+            plants = [load_image('CRAZY_CUCUMBER.png'), load_image('KAKTUS.png'), load_image('PEASHOOT.png'),
+                      load_image('POWER_PEASHOOT.png'), load_image('SUNFLOWER.png')]
             if self.ChPlant != None:
                 Pl = Plant(plants[self.ChPlant], self.Pl[self.ChPlant], cell_coords)
                 if Pl.price <= self.suns:
@@ -90,6 +93,7 @@ class Pole:
         screen.blit(self.plant2, (230, 580))
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
+        screen.blit(self.plant5, (470, 580))
 
 
 
@@ -102,6 +106,7 @@ class Zomb(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
         self.go = True
         self.health = health
+        self.line = (self.rect.y - 50) // 80 + 1
         self.rect.y += 80
     def update(self):
         if self.go:
@@ -154,6 +159,8 @@ class Plant(pygame.sprite.Sprite):
         self.weapon = type[7]
         self.attacking = False
         self.rect.x = self.number
+        if self.attack == 2:
+            self.c = 1
 
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(self.number * 80 + 150, 50 + self.line*80)
@@ -179,10 +186,15 @@ class Plant(pygame.sprite.Sprite):
     def A_update(self):
         if self.attack == 0:
             bullets.append(Bullet(self.weapon, self.damage, self.number, self.line))
-        if self.attack == 1:
+        elif self.attack == 1:
             Explosion('G_BOOM.png', self.number, self.line)
             all_sprites.remove(board.plants[self.line][self.number])
             board.plants[self.line][self.number] = None
+        elif self.attack == 2:
+            self.c += 1
+            if self.c % 3 == 0:
+                board.suns += self.damage
+
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
 
@@ -211,7 +223,6 @@ def score():
     screen.blit(text, (text_x, text_y))
 
 def sun():
-
     font = pygame.font.Font(None, 50)
     text = font.render(str(board.suns), 1, (255, 255, 0))
     text_x = 55
@@ -268,7 +279,7 @@ while pygame.event.wait().type != pygame.QUIT:
                         if abs(z.rect.x - b.rect.x) <= 20:
                             z.health -= b.damage
                             bulletss.remove(b)
-                            #del bullets[bullets.index(b)]
+                            # del bullets[bullets.index(b)]
             sun()
             score()
             pygame.display.flip()
