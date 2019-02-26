@@ -104,7 +104,7 @@ class Pole:
         screen.blit(self.plant3, (310, 580))
         screen.blit(self.plant4, (390, 580))
         screen.blit(self.plant5, (470, 580))
-        screen.blit(self.pannel, (0, 580))
+        screen.blit(self.pannel, (0, 620))
 
 
 
@@ -305,18 +305,20 @@ while pygame.event.wait().type != pygame.QUIT:
                     del zombies[zombies.index(z)]
                     board.kills += 1
             if clock % 1000 == 0 and clock > 0:
-                apaer_speed -= 20
+                if apaer_speed >= 30:
+                    apaer_speed -= 20
                 for i in range(6):
                     zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                     heal += 250
             if clock % 1075 == 0 and clock > 0:
-                apaer_speed -= 20
+                if apaer_speed >= 30:
+                    apaer_speed -= 10
                 for i in range(6):
                     zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                     heal += 250
             if clock % 1150 == 0 and clock > 1000:
                 if apaer_speed >= 30:
-                    apaer_speed -= 20
+                    apaer_speed -= 10
                 for i in range(6):
                     zombies.append(Zomb(1100, (i) * 80 + 10, random.randint(1, 6), heal))
                     heal += 250
