@@ -119,9 +119,9 @@ class Zomb(pygame.sprite.Sprite):
         self.health = health
         self.line = (self.rect.y - 50) // 80 + 1
         self.rect.y += 80
+        self.tile = (self.rect.x - 150) // 80 + 1
     def update(self):
-        if self.go:
-            self.rect.x -= 2
+        self.rect.x -= 2
 
 
 class Explosion(pygame.sprite.Sprite):
@@ -135,6 +135,7 @@ class Explosion(pygame.sprite.Sprite):
         self.rect = self.rect.move(x * 80 + 150, 50 + y * 80)
         for z in zombys:
             if 50 >= z.rect.x - self.rect.x >= -130 or 50 >=z.rect.y - self.rect.y>= -130:
+                del zombies[zombies.index(z)]
                 zombys.remove(z)
                 board.kills += 1
 
