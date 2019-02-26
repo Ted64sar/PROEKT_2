@@ -136,6 +136,7 @@ class Explosion(pygame.sprite.Sprite):
         for z in zombys:
             if 50 >= z.rect.x - self.rect.x >= -130 or 50 >=z.rect.y - self.rect.y>= -130:
                 zombys.remove(z)
+                board.kills += 1
 
 
 class Bullet(pygame.sprite.Sprite):
